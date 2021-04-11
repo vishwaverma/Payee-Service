@@ -1,5 +1,9 @@
 package com.pg.warrior.payee.repo;
 
-public class PayeeRepo {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.pg.warrior.payee.entity.Payee;
+
+public interface PayeeRepo extends JpaRepository<Payee, Integer>{
 
 }
