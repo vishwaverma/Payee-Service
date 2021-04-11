@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class Payee {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int payeeId;
 	private String payeeName;
 	private long payeeAccountNo;

@@ -2,17 +2,17 @@ package com.pg.warrior.payee.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.pg.warrior.payee.entity.Payee;
 import com.pg.warrior.payee.service.PayeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
 
 @RestController
 public class PayeeController 
@@ -20,11 +20,7 @@ public class PayeeController
 	@Autowired
 	private PayeeService payeeService;
 
-	@GetMapping("/payee/{userId}")
-	public List<Payee> getpayee(@PathVariable("userId") int userId) 
-	{
-		return payeeService.getPayee(userId);
-	}
+
 	
 	@PostMapping("/payee")
 	public Payee addPayee(@RequestBody Payee payee) 
@@ -44,4 +40,17 @@ public class PayeeController
 		return payeeService.updatePayee(payee);
 	}
 
+	@Autowired
+	PayeeService service;
+
+	@GetMapping("/payee")
+	public ResponseEntity<List<Payee>> getAllPayees(
+			@RequestParam Integer userId,
+			@RequestParam(defaultValue = "0") Integer pageNo,
+			@RequestParam(defaultValue = "10") Integer pageSize)
+	{
+		List<Payee> list = payeeService.getPayeeList(userId,pageNo, pageSize);
+
+		return new ResponseEntity<List<Payee>>(list, new HttpHeaders(), HttpStatus.OK);
+	}
 }
